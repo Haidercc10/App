@@ -1,0 +1,187 @@
+<p>empleado works!</p>
+
+<!-- <p>Nombre: {{nombre}}</p>
+<p>Apellido: {{apellido}}</p>
+<p>Edad: {{getEdad()}}</p>
+<p>Telefono: {{telefono}}</p>
+<p>Empresa: {{empresa.value}}</p>
+
+Introduce la empresa:
+<br>
+<input type="text" pInputText #empresa [disabled]="habilitar"/>
+<br>
+<p-button label="Submit" (keyup)="0"></p-button>
+<br>
+<p-checkbox [binary]="true" ></p-checkbox>
+<br>
+<input type="checkbox" [checked]="usuarioRegistrado"/>
+{{usuRegistrado()}} -->
+
+<div class="card">
+  <p-table
+  [value]="pallets"
+  dataKey="pallet"
+  [tableStyle]="{ 'min-width': '60rem' }"
+  [(selection)]="palletsSeleccionados"
+  >
+  <ng-template pTemplate="header">
+      <tr>
+          <th style="width: 4rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th>#</th>
+          <th style="width: 5rem"></th>
+          <th pSortableColumn="">Pallet <p-sortIcon field=""></p-sortIcon></th>
+          <th pSortableColumn="">Cliente <p-sortIcon field=""></p-sortIcon></th>
+          <th pSortableColumn="">Item <p-sortIcon field=""></p-sortIcon></th>
+          <th pSortableColumn="">Referencia <p-sortIcon field=""></p-sortIcon></th>
+          <th pSortableColumn="">Cantidad <p-sortIcon field=""></p-sortIcon></th>
+          <th pSortableColumn="">Presentación <p-sortIcon field=""></p-sortIcon></th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-pallet let-rowIndex="rowIndex" let-expanded="expanded">
+      <tr>
+          <th style="width: 4rem">
+            <p-tableCheckbox [value]="pallet"></p-tableCheckbox>
+          </th>
+          <td>{{ rowIndex + 1 }}</td>
+          <td>
+              <button type="button" pButton pRipple [pRowToggler]="pallet" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+          </td>
+          <td>{{ pallet.pallet }}</td>
+          <td>{{ pallet.cliente }}</td>
+          <td>{{ pallet.item }}</td>
+          <td>{{ pallet.ref }}</td>
+          <td>{{ cantidadPallet(pallet.pallet) | number : '1.2-2' }}</td>
+          <td>{{ pallet.unidad }}</td>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-pallet>
+      <tr>
+          <td colspan="9">
+              <div class="p-3">
+                  <p-table [value]="pallet.rollos" dataKey="id">
+                      <ng-template pTemplate="header">
+                          <tr>
+                              <th style="width: 4rem">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                              </th>
+                              <th pSortableColumn="">Rollo <p-sortIcon field=""></p-sortIcon></th>
+                              <th pSortableColumn="">Item <p-sortIcon field=""></p-sortIcon></th>
+                              <th pSortableColumn="">Referencia <p-sortIcon field=""></p-sortIcon></th>
+                              <th pSortableColumn="">Cantidad <p-sortIcon field=""></p-sortIcon></th>
+                              <th pSortableColumn="">Presentación <p-sortIcon field=""></p-sortIcon></th>
+                              <th pSortableColumn="">Proceso <p-sortIcon field=""></p-sortIcon></th>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rollo>
+                          <tr>
+                              <th style="width: 4rem">
+                                <p-tableCheckbox [value]="rollo"></p-tableCheckbox>
+                              </th>
+                              <td>{{ rollo.rollo }}</td>
+                              <td>{{ rollo.item }}</td>
+                              <td>{{ rollo.ref }}</td>
+                              <td>{{ rollo.cant | number : '1.2-2' }}</td>
+                              <td>{{ rollo.unidad  }}</td>
+                              <td>{{ rollo.proceso }}</td>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                          <tr>
+                              <td colspan="6">No hay rollos disponibles.</td>
+                          </tr>
+                      </ng-template>
+                  </p-table>
+              </div>
+          </td>
+      </tr>
+  </ng-template>
+
+  </p-table>
+</div>
+
+<br><br><br>
+
+<div class="card">
+  <p-table
+  [value]="palletsSeleccionados"
+  dataKey="pallet"
+  [tableStyle]="{ 'min-width': '60rem' }"
+  [(selection)]="pallets">
+  <ng-template pTemplate="header">
+      <tr>
+          <th style="width: 4rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th>#</th>
+          <th style="width: 5rem"></th>
+          <th pSortableColumn="">Pallet <p-sortIcon field=""></p-sortIcon></th>
+          <th pSortableColumn="">Cliente <p-sortIcon field=""></p-sortIcon></th>
+          <th pSortableColumn="">Item <p-sortIcon field=""></p-sortIcon></th>
+          <th pSortableColumn="">Referencia <p-sortIcon field=""></p-sortIcon></th>
+          <th pSortableColumn="">Cantidad <p-sortIcon field=""></p-sortIcon></th>
+          <th pSortableColumn="">Presentación <p-sortIcon field=""></p-sortIcon></th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-pallet let-rowIndex="rowIndex" let-expanded="expanded">
+      <tr>
+          <th style="width: 4rem">
+            <p-tableCheckbox [value]="pallet"></p-tableCheckbox>
+          </th>
+          <td>{{ rowIndex + 1 }}</td>
+          <td>
+              <button type="button" pButton pRipple [pRowToggler]="pallet" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+          </td>
+          <td>{{ pallet.pallet }}</td>
+          <td>{{ pallet.cliente }}</td>
+          <td>{{ pallet.item }}</td>
+          <td>{{ pallet.ref }}</td>
+          <td>{{ cantidadPallet(pallet.pallet) | number : '1.2-2' }}</td>
+          <td>{{ pallet.unidad }}</td>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="rowexpansion" let-pallet>
+      <tr>
+          <td colspan="9">
+              <div class="p-3">
+                  <p-table [value]="pallet.rollos" dataKey="id">
+                      <ng-template pTemplate="header">
+                          <tr>
+                              <th style="width: 4rem">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                              </th>
+                              <th pSortableColumn="">Rollo <p-sortIcon field=""></p-sortIcon></th>
+                              <th pSortableColumn="">Item <p-sortIcon field=""></p-sortIcon></th>
+                              <th pSortableColumn="">Referencia <p-sortIcon field=""></p-sortIcon></th>
+                              <th pSortableColumn="">Cantidad <p-sortIcon field=""></p-sortIcon></th>
+                              <th pSortableColumn="">Presentación <p-sortIcon field=""></p-sortIcon></th>
+                              <th pSortableColumn="">Proceso <p-sortIcon field=""></p-sortIcon></th>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rollo>
+                          <tr>
+                              <th style="width: 4rem">
+                                <p-tableCheckbox [value]="rollo"></p-tableCheckbox>
+                              </th>
+                              <td>{{ rollo.rollo }}</td>
+                              <td>{{ rollo.item }}</td>
+                              <td>{{ rollo.ref }}</td>
+                              <td>{{ rollo.cant | number : '1.2-2' }}</td>
+                              <td>{{ rollo.unidad }}</td>
+                              <td>{{ rollo.proceso }}</td>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                          <tr>
+                              <td colspan="6">No hay rollos disponibles.</td>
+                          </tr>
+                      </ng-template>
+                  </p-table>
+              </div>
+          </td>
+      </tr>
+  </ng-template>
+
+  </p-table>
+</div>
