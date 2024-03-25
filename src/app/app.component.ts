@@ -28,10 +28,10 @@ export class AppComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.cargarJson();
-    setTimeout(() => {
+    //this.cargarJson();
+    /*setTimeout(() => {
       this.miFuncion()
-    }, 1000);
+    }, 1000);*/
 
     /*const documentDefinition = {
       content: [

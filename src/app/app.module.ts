@@ -9,6 +9,7 @@ import { EmpleadosComponent } from './Vistas/empleados/empleados.component';
 import { EmpleadoComponent } from './Vistas/empleado/empleado.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { TableModule } from 'primeng/table';
     BrowserAnimationsModule,
     CheckboxModule,
     InputTextModule,
-    TableModule
+    TableModule,
+    ProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -17,17 +17,21 @@ Introduce la empresa:
 <input type="checkbox" [checked]="usuarioRegistrado"/>
 {{usuRegistrado()}} -->
 
+
+
 <div class="card">
+  <p-progressSpinner ariaLabel="loading" *ngIf="loading"></p-progressSpinner>
   <p-table
   [value]="pallets"
   dataKey="pallet"
   [tableStyle]="{ 'min-width': '60rem' }"
   [(selection)]="palletsSeleccionados"
+  *ngIf="!loading"
   >
   <ng-template pTemplate="header">
       <tr>
           <th style="width: 4rem">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            <p-tableHeaderCheckbox (click)="seleccionTodosPallets()"></p-tableHeaderCheckbox>
           </th>
           <th>#</th>
           <th style="width: 5rem"></th>
@@ -42,7 +46,7 @@ Introduce la empresa:
   <ng-template pTemplate="body" let-pallet let-rowIndex="rowIndex" let-expanded="expanded">
       <tr>
           <th style="width: 4rem">
-            <p-tableCheckbox [value]="pallet"></p-tableCheckbox>
+            <p-tableCheckbox [value]="pallet" (click)="seleccionPallet(pallet)"></p-tableCheckbox>
           </th>
           <td>{{ rowIndex + 1 }}</td>
           <td>
@@ -52,7 +56,7 @@ Introduce la empresa:
           <td>{{ pallet.cliente }}</td>
           <td>{{ pallet.item }}</td>
           <td>{{ pallet.ref }}</td>
-          <td>{{ cantidadPallet(pallet.pallet) | number : '1.2-2' }}</td>
+          <td>{{ cantidadPallets(pallet.pallet, rowIndex) | number : '1.2-2' }}</td>
           <td>{{ pallet.unidad }}</td>
       </tr>
   </ng-template>
@@ -108,11 +112,12 @@ Introduce la empresa:
   [value]="palletsSeleccionados"
   dataKey="pallet"
   [tableStyle]="{ 'min-width': '60rem' }"
-  [(selection)]="pallets">
+  [(selection)]="pallets"
+  *ngIf="!loading">
   <ng-template pTemplate="header">
       <tr>
           <th style="width: 4rem">
-            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            <p-tableHeaderCheckbox (click)="deseleccionTodosPallets()"></p-tableHeaderCheckbox>
           </th>
           <th>#</th>
           <th style="width: 5rem"></th>
@@ -127,7 +132,7 @@ Introduce la empresa:
   <ng-template pTemplate="body" let-pallet let-rowIndex="rowIndex" let-expanded="expanded">
       <tr>
           <th style="width: 4rem">
-            <p-tableCheckbox [value]="pallet"></p-tableCheckbox>
+            <p-tableCheckbox [value]="pallet" (click)="deseleccionPallet(pallet)"></p-tableCheckbox>
           </th>
           <td>{{ rowIndex + 1 }}</td>
           <td>
@@ -137,7 +142,7 @@ Introduce la empresa:
           <td>{{ pallet.cliente }}</td>
           <td>{{ pallet.item }}</td>
           <td>{{ pallet.ref }}</td>
-          <td>{{ cantidadPallet(pallet.pallet) | number : '1.2-2' }}</td>
+          <td>{{ cantidadPalletsSeleccionados(pallet.pallet, rowIndex) | number : '1.2-2' }}</td>
           <td>{{ pallet.unidad }}</td>
       </tr>
   </ng-template>
