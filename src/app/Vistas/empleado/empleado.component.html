@@ -27,6 +27,7 @@ Introduce la empresa:
   [tableStyle]="{ 'min-width': '60rem' }"
   [(selection)]="palletsSeleccionados"
   *ngIf="!loading"
+  rowExpandMode="single"
   >
   <ng-template pTemplate="header">
       <tr>
@@ -64,12 +65,14 @@ Introduce la empresa:
       <tr>
           <td colspan="9">
               <div class="p-3">
-                  <p-table [value]="pallet.rollos" dataKey="id">
+                  <p-table [value]="pallet.rollos" dataKey="rollo" rowExpandMode="single" *ngIf="!loading" rowExpandMode="single">
                       <ng-template pTemplate="header">
                           <tr>
+
                               <th style="width: 4rem">
-                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                <p-tableHeaderCheckbox (click)="seleccionTodoTablaPallets(pallet)"></p-tableHeaderCheckbox>
                               </th>
+                              <th>#</th>
                               <th pSortableColumn="">Rollo <p-sortIcon field=""></p-sortIcon></th>
                               <th pSortableColumn="">Item <p-sortIcon field=""></p-sortIcon></th>
                               <th pSortableColumn="">Referencia <p-sortIcon field=""></p-sortIcon></th>
@@ -78,11 +81,13 @@ Introduce la empresa:
                               <th pSortableColumn="">Proceso <p-sortIcon field=""></p-sortIcon></th>
                           </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-rollo>
+                      <ng-template pTemplate="body" let-rollo let-rowIndex="rowIndex">
                           <tr>
+
                               <th style="width: 4rem">
-                                <p-tableCheckbox [value]="rollo"></p-tableCheckbox>
+                                <p-tableCheckbox [value]="rollo" (click)="seleccionRolloPallets(rollo, rowIndex)"></p-tableCheckbox>
                               </th>
+                              <td>{{ rowIndex + 1 }}</td>
                               <td>{{ rollo.rollo }}</td>
                               <td>{{ rollo.item }}</td>
                               <td>{{ rollo.ref }}</td>
@@ -93,7 +98,7 @@ Introduce la empresa:
                       </ng-template>
                       <ng-template pTemplate="emptymessage">
                           <tr>
-                              <td colspan="6">No hay rollos disponibles.</td>
+                              <td colspan="8">No hay rollos disponibles.</td>
                           </tr>
                       </ng-template>
                   </p-table>
@@ -113,7 +118,8 @@ Introduce la empresa:
   dataKey="pallet"
   [tableStyle]="{ 'min-width': '60rem' }"
   [(selection)]="pallets"
-  *ngIf="!loading">
+  *ngIf="!loading"
+  rowExpandMode="single">
   <ng-template pTemplate="header">
       <tr>
           <th style="width: 4rem">
@@ -150,12 +156,13 @@ Introduce la empresa:
       <tr>
           <td colspan="9">
               <div class="p-3">
-                  <p-table [value]="pallet.rollos" dataKey="id">
+                  <p-table [value]="pallet.rollos" dataKey="rollo" [(selection)]="pallets" *ngIf="!loading" rowExpandMode="single">
                       <ng-template pTemplate="header">
                           <tr>
                               <th style="width: 4rem">
-                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                <p-tableHeaderCheckbox (click)="deseleccionTodoTablaPallets(pallet)"></p-tableHeaderCheckbox>
                               </th>
+                              <th>#</th>
                               <th pSortableColumn="">Rollo <p-sortIcon field=""></p-sortIcon></th>
                               <th pSortableColumn="">Item <p-sortIcon field=""></p-sortIcon></th>
                               <th pSortableColumn="">Referencia <p-sortIcon field=""></p-sortIcon></th>
@@ -164,17 +171,18 @@ Introduce la empresa:
                               <th pSortableColumn="">Proceso <p-sortIcon field=""></p-sortIcon></th>
                           </tr>
                       </ng-template>
-                      <ng-template pTemplate="body" let-rollo>
+                      <ng-template pTemplate="body" let-rollo let-rowIndex="rowIndex">
                           <tr>
-                              <th style="width: 4rem">
-                                <p-tableCheckbox [value]="rollo"></p-tableCheckbox>
-                              </th>
-                              <td>{{ rollo.rollo }}</td>
-                              <td>{{ rollo.item }}</td>
-                              <td>{{ rollo.ref }}</td>
-                              <td>{{ rollo.cant | number : '1.2-2' }}</td>
-                              <td>{{ rollo.unidad }}</td>
-                              <td>{{ rollo.proceso }}</td>
+                            <th style="width: 4rem">
+                              <p-tableCheckbox [value]="rollo"></p-tableCheckbox>
+                            </th>
+                            <td>{{ rowIndex + 1 }}</td>
+                            <td>{{ rollo.rollo }}</td>
+                            <td>{{ rollo.item }}</td>
+                            <td>{{ rollo.ref }}</td>
+                            <td>{{ rollo.cant | number : '1.2-2' }}</td>
+                            <td>{{ rollo.unidad  }}</td>
+                            <td>{{ rollo.proceso }}</td>
                           </tr>
                       </ng-template>
                       <ng-template pTemplate="emptymessage">

@@ -12,6 +12,7 @@ export class EmpleadoComponent implements OnInit {
  data : any = [];
  palletsSeleccionados : any = [];
  loading : boolean = false;
+ palletAbierto : any = [];
 
   ngOnInit(): void {
     this.cargarPallets();
@@ -36,6 +37,7 @@ export class EmpleadoComponent implements OnInit {
   filtrarPallets(){
     this.pallets = this.data.reduce((a: any, b: any) => {
       if(!a.map((x: { pallet: any; }) => x.pallet).includes(b.pallet)) a = [...a, b];
+      console.log(a)
       return a;
     }, []);
   }
@@ -79,6 +81,67 @@ export class EmpleadoComponent implements OnInit {
     this.palletsSeleccionados.splice(index, 1);
     this.pallets.sort((a: any, b: any) => a.pallet - b.pallet);
     setTimeout(() => { this.loading = false }, 5);
+
+  }
+
+  seleccionTodoTablaPallets(data : any) {
+    this.loading = true;
+    let index = this.pallets.findIndex((x: { pallet: any; }) => x.pallet == data.pallet);
+    this.pallets.splice(index, 1);
+    this.palletsSeleccionados = this.palletsSeleccionados.concat(data);
+    this.palletsSeleccionados.sort((a: any, b: any) => a.pallet - b.pallet);
+    setTimeout(() => { this.loading = false }, 5);
+  }
+
+  deseleccionTodoTablaPallets(data : any) {
+    this.loading = true;
+    let index = this.pallets.findIndex((x: { pallet: any; }) => x.pallet == data.pallet);
+    this.pallets = this.pallets.concat(data);
+    this.pallets.splice(index, 1);
+    this.palletsSeleccionados.sort((a: any, b: any) => a.pallet - b.pallet);
+    setTimeout(() => { this.loading = false }, 5);
+  }
+
+  seleccionRolloPallets(rollo : any, i : number) {
+    this.loading = true;
+    //console.log(rollo, i)
+    this.palletsSeleccionados = this.palletsSeleccionados.concat(rollo)
+    i == 0 ? console.log(this.palletsSeleccionados) : null
+    console.log(this.palletsSeleccionados)
+    rollo.rollos;
+    //rollo.rollos.push(rollo)
+    console.log(rollo)
+    console.log(rollo.rollos)
+
+    //this.palletsSeleccionados = this.palletsSeleccionados.concat(rollo)
+    //console.log(rollo.rollos.splice(i, 1))
+    //this.palletsSeleccionados.push(rollo)
+    //console.log(this.palletsSeleccionados)
+    //let index = this.pallets.findIndex((x: { pallet: any; }) => x.pallet == rollo.pallet);
+    //let i = this.pallets[index].rollos.findIndex((x: { rollo: any; }) => x.rollo == rollo.rollo);
+    //this.palletsSeleccionados = this.palletsSeleccionados.concat(this.pallets);
+    //console.log(this.pallets[index])
+    //this.palletsSeleccionados[index].rollos.push(rollo)
+
+    //console.log(this.palletsSeleccionados)
+    //this.palletsSeleccionados[index].rollos.push(rollo)
+    //console.log(this.palletsSeleccionados)
+    //this.pallets[i].rollos.splice(i, 1);
+    //if(this.pallets[i].rollos.length == 0) this.pallets.splice(i, 1)
+    //this.palletsSeleccionados.sort((a: any, b: any) => a.pallet - b.pallet);
+    //this.palletsSeleccionados[index].rollos.sort((a: any, b: any) => a.rollo - b.rollo);
+    setTimeout(() => { this.loading = false }, 5);
+  }
+
+  onRowSelect(event: any, i : number) {
+    console.log(event.data);
+    this.palletsSeleccionados.push(event.data)
+    this.palletsSeleccionados[0].rollos = [];
+    this.palletsSeleccionados[0].rollos.push(event.data)
+  }
+
+  onRowUnselect(event: any) {
+    console.log(event.data);
 
   }
 
